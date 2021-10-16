@@ -52,6 +52,22 @@ def get_timeline_range():
     return [start_frame, end_frame]
 
 def run(nodes=None, anim=True, bake=False, sampleBy='keys', translate=True, rotate=True, scale=LOC_SCALE, useAPI=False, timer=False):
+    ''' Extracts animation from the selected objects and clones it onto locators
+
+    Args:
+        nodes (list) - List of transforms to clone
+        anim (bool) - if False, will take current frame position
+        bake (bool) - bake on 1s for the duration of the timeline
+        sampleBy (str)|(int) - 'keys' will take keys. 1 will key every frame. 2 will do 2s, etc..
+        translate (bool) - default True - capture translation data
+        rotate (bool) - default True - capture rotate data
+        scale (float) - local scale of generated locators. Default is using a built-in (50)
+        useAPI (bool) - default False - if set to true, it will generate mvectors to do the math. It's much slower.
+        timer (bool) - default False - print recorded time of operation
+    Return:
+        [nodes, locators] - a list of two lists - the objects recorded, and the locators generated
+    '''
+
     if timer:
         # code that is being timed
         start_timer = cmds.timerX()
@@ -151,6 +167,8 @@ def run(nodes=None, anim=True, bake=False, sampleBy='keys', translate=True, rota
     if timer:
         end_timer = cmds.timerX()
         print("Finished in {0} seconds.".format(end_timer - start_timer))
+
+    return [nodes, locators]
 
 #------------------------------------------------------------------------------#
 
